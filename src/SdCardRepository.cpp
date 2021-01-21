@@ -1,20 +1,25 @@
 #include "SdCardRepository.h"
 
-String SdCardRepository::getCsvMeasurementRowString(Measurement measure, long currentMillis)
+String SdCardRepository::getCsvMeasurementRowString(Measurement measure)
 {
-    return String(currentMillis) + ";" + String(measure.getCounter()) + ";" + String(measure.getDistanceInMm()) + ";" + String(measure.getLight()) + ";" + String(measure.getTemperatureInCelcius());
+    String dateTime = ProjectUtils::dateTimeToString(measure.getMeasureDateTime());
+    String counter = String(measure.getCounter());
+    String distance = String(measure.getDistanceInMm());
+    String light = String(measure.getLight());
+    String temperature = String(measure.getTemperatureInCelcius());
+    return dateTime + String(";") + counter + String(";") + distance + String(";") + light + String(";") + temperature;
 }
 
 bool SdCardRepository::writeLineToFile(String text_line, String filename)
 {
-    File myFile = SD.open(filename, FILE_WRITE);
-
+    File myFile = SD.open(filename.c_str(), FILE_WRITE);
     if (myFile)
     {
-        Serial.print("Start writing to " + filename + "file");
-        myFile.println(text_line + "\n");
+        Serial.println("Start writing to " + filename + " file");
+        myFile.println(text_line);
         myFile.close();
-        Serial.print("Finish writing to " + filename + "file");
+        Serial.println("Finish writing to " + filename + " file");
+        lastSaveTime = millis();
         return true;
     }
     else
@@ -47,19 +52,19 @@ bool SdCardRepository::init()
 
 bool SdCardRepository::prepareMeasuresFile(String filename)
 {
-    if (!SD.exists(filename))
-    {
-        return writeLineToFile(MEASURES_HEADER, filename);
-    }
+    // if (!SD.exists(filename.c_str()))
+    // {
+    //     return writeLineToFile(MEASURES_HEADER, filename);
+    // }
     return true;
 }
 
-bool SdCardRepository::exportMeasurement(Measurement measure, long currentMillis, String filename)
+bool SdCardRepository::exportMeasurement(Measurement measure, String filename)
 {
-    return writeLineToFile(getCsvMeasurementRowString(measure, currentMillis), filename);
+    return writeLineToFile(getCsvMeasurementRowString(measure), filename);
 }
 
 bool SdCardRepository::haveToSaveUpdatedMeasure()
 {
-    return lastSaveTime / updateSdPeriodMs < millis() / updateSdPeriodMs;
+    return ((unsigned long)lastSaveTime / (unsigned long)updateSdPeriodMs) < (millis() / (unsigned long)updateSdPeriodMs);
 }

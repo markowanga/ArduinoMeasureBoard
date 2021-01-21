@@ -1,4 +1,5 @@
-#include "measurement.h"
+#include "Measurement.h"
+#include "ProjectUtils.h"
 #include <Arduino.h>
 #include <SPI.h>
 #include <SD.h>
@@ -14,16 +15,17 @@ public:
 
     bool prepareMeasuresFile(String filename);
 
-    bool exportMeasurement(Measurement measure, long currentMillis, String filename);
+    bool exportMeasurement(Measurement measure, String filename);
 
     bool haveToSaveUpdatedMeasure();
+
+    bool writeLineToFile(String text_line, String filename);
 
 private:
     int csPin;
     int lastSaveTime;
     const static int updateSdPeriodMs = 10000;
 
-    String getCsvMeasurementRowString(Measurement measure, long currentMillis);
+    String getCsvMeasurementRowString(Measurement measure);
 
-    bool writeLineToFile(String text_line, String filename);
 };

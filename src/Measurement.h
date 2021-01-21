@@ -1,5 +1,6 @@
-# ifndef MEASUREMENT
-#  define MEASUREMENT
+# ifndef MEASUREMENT__
+#  define MEASUREMENT__
+// #include "RtcDateTime.h"
 #include <RTClib.h>
 
 class Measurement {
@@ -8,18 +9,20 @@ class Measurement {
     DateTime dateTime;
     int counter;
     float distanceInMm;
-    int light;
+    float light;
     float temperatureInCelcius;
 
   public:
 
-    Measurement(DateTime dateTime, int counter, float distanceInMm, int light, float temperatureInCelcius);
+    Measurement(DateTime dateTime, int counter, float distanceInMm, float light, float temperatureInCelcius);
+
+    DateTime getMeasureDateTime();
 
     int getCounter();
 
     float getDistanceInMm();
 
-    int getLight();
+    float getLight();
 
     float getTemperatureInCelcius();
 

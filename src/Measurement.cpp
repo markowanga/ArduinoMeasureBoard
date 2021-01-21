@@ -1,12 +1,16 @@
 #include "Measurement.h"
 
-Measurement::Measurement(DateTime datetime, int counter, float distanceInMm, int light, float temperatureInCelcius)
+Measurement::Measurement(DateTime dateTime, int counter, float distanceInMm, float light, float temperatureInCelcius)
 {
   this->dateTime = dateTime;
   this->counter = counter;
   this->distanceInMm = distanceInMm;
   this->light = light;
   this->temperatureInCelcius = temperatureInCelcius;
+}
+
+DateTime Measurement::getMeasureDateTime() {
+  return dateTime;
 }
 
 int Measurement::getCounter()
@@ -19,7 +23,7 @@ float Measurement::getDistanceInMm()
   return distanceInMm;
 }
 
-int Measurement::getLight()
+float Measurement::getLight()
 {
   return light;
 }
