@@ -38,5 +38,5 @@ String ProjectUtils::fillSpacesToLength(String value, int length)
     {
         filledValue = filledValue + " ";
     }
-    return filledValue.substring(0, length + 1);
+    return filledValue.substring(0, length);
 }
