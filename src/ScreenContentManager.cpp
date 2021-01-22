@@ -47,7 +47,7 @@ void ScreenContentManager::decrementPosition()
 void ScreenContentManager::updateScreen()
 {
     String line1 = ProjectUtils::fillSpacesToLength(lines[currentPosition], 16);
-    String line2 = ProjectUtils::fillSpacesToLength(lines[(currentPosition + 1) % (SCREEN_LINES_COUNT - 1)], 16);
+    String line2 = ProjectUtils::fillSpacesToLength(lines[(currentPosition + 1) % (SCREEN_LINES_COUNT)], 16);
     showLines(line1, line2);
 }
 
